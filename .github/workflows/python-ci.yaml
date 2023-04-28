@@ -39,7 +39,7 @@ jobs:
 
       - name: Security check with bandit
         run: |
-          bandit -r . -c .bandit.yaml
+          bandit -r . -c .bandit
 
       - name: Test with pytest
         run: |
