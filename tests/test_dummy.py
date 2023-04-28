@@ -1,6 +1,6 @@
 """Example test for the template project."""
 
-from template import increment
+from my_package.dummy import increment
 
 
 def test_increment():

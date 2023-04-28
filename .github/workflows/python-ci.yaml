@@ -30,7 +30,7 @@ jobs:
 
       - name: Type check with mypy
         run: |
-          mypy **/*.py
+          mypy ./*.py **/*.py
 
       - name: Dependency check with safety
         run: |
