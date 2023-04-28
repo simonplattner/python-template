@@ -1,0 +1,54 @@
+name: Python CI
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.9, 3.10, 3.11 ]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint pytest mypy bandit safety coverage
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Lint with pylint
+        run: |
+          pylint **/*.py
+
+      - name: Type check with mypy
+        run: |
+          mypy **/*.py
+
+      - name: Dependency check with safety
+        run: |
+          safety check
+
+      - name: Security check with bandit
+        run: |
+          bandit -r .
+
+      - name: Test with pytest
+        run: |
+          pytest
+
+      - name: Check test coverage with coverage.py
+        run: |
+          coverage run -m pytest
+          coverage report
+
+      - name: Test documentation with doctest
+        run: |
+          python -m doctest **/*.py
