@@ -33,11 +33,11 @@ jobs:
         run: |
           mypy ./*.py **/*.py
 
-      - name: Dependency check with safety
+      - name: Check dependencies for vulnerabilities with safety
         run: |
           safety check
 
-      - name: Security check with bandit
+      - name: Check code for vulnerabilities with bandit
         run: |
           bandit -r . -c bandit.yaml
 
